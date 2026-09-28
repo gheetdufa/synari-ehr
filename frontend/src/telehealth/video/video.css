@@ -1,0 +1,106 @@
+/* LiveKit components themed for Synari: a dark, neutral stage with the app's teal accents. */
+
+/* LiveKit's .lk-room-container sets position: relative and height: 100%, which would undo the
+   full-screen fixed layout. This rule is more specific, so the call always fills the window. */
+.synari-video.lk-room-container {
+  position: fixed;
+  inset: 0;
+  height: 100dvh;
+}
+
+.synari-video[data-lk-theme] {
+  color-scheme: dark;
+  --lk-bg: #0b1312;
+  --lk-bg2: #121d1c;
+  --lk-bg3: #192826;
+  --lk-bg4: #213432;
+  --lk-bg5: #2b413e;
+  --lk-fg: #f1f5f4;
+  --lk-fg2: #e2e8e7;
+  --lk-border-color: rgba(255, 255, 255, 0.08);
+  --lk-accent-fg: #ffffff;
+  --lk-accent-bg: #14b8a6;
+  --lk-accent2: #2dd4bf;
+  --lk-accent3: #5eead4;
+  --lk-accent4: #99f6e4;
+  --lk-danger: #dc2626;
+  --lk-danger2: #ef4444;
+  --lk-connection-excellent: #2dd4bf;
+  --lk-connection-good: #fbbf24;
+  --lk-connection-poor: #f87171;
+  --lk-font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --lk-font-size: 14px;
+  --lk-border-radius: 0.875rem;
+  --lk-grid-gap: 0.5rem;
+  background-color: var(--lk-bg);
+}
+
+.synari-video .lk-participant-tile {
+  background-color: var(--lk-bg2);
+}
+
+.synari-video .synari-main-tile,
+.synari-video .synari-pip .lk-participant-tile {
+  height: 100%;
+  width: 100%;
+}
+
+/* Your own small preview fills its corner box. */
+.synari-video .synari-pip .lk-participant-media-video {
+  object-fit: cover;
+}
+
+/* Touch screens can't hover: always show each person's connection quality. */
+.synari-video .lk-participant-tile .lk-connection-quality {
+  opacity: 1;
+}
+
+.synari-video .lk-participant-metadata-item {
+  background-color: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(6px);
+  padding: 0.3rem 0.5rem;
+}
+
+.synari-video .lk-participant-name {
+  font-weight: 500;
+}
+
+/* The main speaker is letterboxed rather than cropped, so faces are never cut off on phones. */
+.synari-video .synari-main-tile .lk-participant-media-video {
+  object-fit: contain;
+  background-color: var(--lk-bg);
+}
+
+.synari-video .synari-main-tile .lk-participant-placeholder svg {
+  max-height: 14rem;
+}
+
+.synari-video .synari-pip .lk-participant-metadata,
+.synari-video .synari-pip .lk-focus-toggle-button {
+  display: none;
+}
+
+.synari-video .lk-grid-layout {
+  padding: 0;
+}
+
+.synari-video .lk-toast {
+  top: 4.5rem;
+  background-color: var(--lk-bg3);
+  border: 1px solid var(--lk-border-color);
+}
+
+/* Shown by LiveKit only when the browser blocked autoplay. */
+.synari-video .lk-start-audio-button {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 20;
+  transform: translate(-50%, -50%);
+  border-radius: 9999px;
+  padding: 0.75rem 1.25rem;
+  font-weight: 600;
+  background-color: var(--lk-accent-bg);
+  color: #042f2e;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}

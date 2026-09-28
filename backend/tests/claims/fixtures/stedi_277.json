@@ -1,0 +1,124 @@
+{
+  "meta": {"applicationMode": "test", "traceId": "b7c1d2e3-0000-4000-8000-000000000277"},
+  "transactions": [
+    {
+      "controlNumber": "0001",
+      "referenceIdentification": "277CA0001",
+      "transactionSetCreationDate": "20260920",
+      "transactionSetCreationTime": "1500",
+      "payers": [
+        {
+          "organizationName": "EVERGREEN HEALTH PLAN",
+          "entityIdentifierCode": "PR",
+          "payerIdentification": "EVRGN",
+          "claimStatusTransactions": [
+            {
+              "claimTransactionBatchNumber": "01KHC8Y4HNP0GVQ5NSVTPZBC0F",
+              "provider": {"organizationName": "MAPLE COUNSELING", "etin": "MAPLE01"},
+              "providerClaimStatuses": [
+                {
+                  "providerStatuses": [
+                    {"healthCareClaimStatusCategoryCode": "A1", "statusCode": "19", "entityIdentifierCode": "PR"}
+                  ],
+                  "statusInformationEffectiveDate": "20260920"
+                }
+              ],
+              "claimStatusDetails": [
+                {
+                  "serviceProvider": {"npi": "1111111112", "organizationName": "MAPLE COUNSELING GROUP"},
+                  "patientClaimStatusDetails": [
+                    {
+                      "subscriber": {"firstName": "JORDAN", "lastName": "LEE", "memberId": "EVG123456789"},
+                      "claims": [
+                        {
+                          "claimStatus": {
+                            "referencedTransactionTraceNumber": "C1001",
+                            "patientAccountNumber": "C1001",
+                            "tradingPartnerClaimNumber": "EVG20260915001",
+                            "clearinghouseTraceNumber": "CH0042A",
+                            "claimServiceBeginDate": "20260915",
+                            "claimServiceEndDate": "20260915",
+                            "informationClaimStatuses": [
+                              {
+                                "informationStatuses": [
+                                  {
+                                    "healthCareClaimStatusCategoryCode": "A2",
+                                    "healthCareClaimStatusCategoryCodeValue": "Acknowledgement/Acceptance into adjudication system",
+                                    "statusCode": "20",
+                                    "statusCodeValue": "Accepted for processing.",
+                                    "entityIdentifierCode": "PR"
+                                  }
+                                ],
+                                "statusInformationActionCode": "WQ",
+                                "statusInformationEffectiveDate": "20260920",
+                                "totalClaimChargeAmount": "150"
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "subscriber": {"firstName": "MORGAN", "lastName": "SMITH", "memberId": "EVG555000111"},
+                      "dependent": {"firstName": "RILEY", "lastName": "SMITH"},
+                      "claims": [
+                        {
+                          "claimStatus": {
+                            "referencedTransactionTraceNumber": "C2002",
+                            "patientAccountNumber": "C2002",
+                            "clearinghouseTraceNumber": "CH0042B",
+                            "claimServiceBeginDate": "20260901",
+                            "claimServiceEndDate": "20260908",
+                            "informationClaimStatuses": [
+                              {
+                                "informationStatuses": [
+                                  {
+                                    "healthCareClaimStatusCategoryCode": "A7",
+                                    "healthCareClaimStatusCategoryCodeValue": "Acknowledgement/Rejected for Invalid Information",
+                                    "statusCode": "562",
+                                    "statusCodeValue": "Entity's National Provider Identifier (NPI)",
+                                    "entityIdentifierCode": "85"
+                                  }
+                                ],
+                                "statusInformationActionCode": "U",
+                                "statusInformationEffectiveDate": "20260920",
+                                "statusMessage": "Billing provider NPI not on file with the payer",
+                                "totalClaimChargeAmount": "320.5"
+                              }
+                            ]
+                          },
+                          "serviceLines": [
+                            {
+                              "lineItemControlNumber": "C2002-2",
+                              "serviceLineDate": "20260908",
+                              "service": {
+                                "procedureCode": "90834",
+                                "procedureModifiers": ["95", "HO"],
+                                "chargeAmount": "140.5",
+                                "serviceIdQualifierCode": "HC",
+                                "submittedUnits": "1"
+                              },
+                              "serviceClaimStatuses": [
+                                {
+                                  "serviceStatuses": [
+                                    {"healthCareClaimStatusCategoryCode": "A7", "statusCode": "453"}
+                                  ],
+                                  "statusMessage": "Modifier HO not allowed with place of service 02",
+                                  "effectiveDate": "20260920"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

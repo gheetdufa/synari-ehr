@@ -1,0 +1,27 @@
+/* Shared stack-diamond logo mark + marketing type scope, reused outside the landing page. */
+
+.stack-mark { position: relative; display: inline-block; width: 26px; aspect-ratio: 232 / 196; }
+.stack-mark svg { position: absolute; left: 0; width: 100%; height: auto; }
+.stack-mark-top { top: 0; }
+.stack-mark-mid { top: 50%; translate: 0 -50%; }
+.stack-mark-base { bottom: 0; }
+
+.brand { display: inline-flex; align-items: center; gap: 9px; }
+.brand-mark { flex: 0 0 auto; }
+.brand-word {
+  background: linear-gradient(96deg, #0891b2 0%, #0d9488 70%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.synari-marketing {
+  --sm-ink: #093a40;
+  --sm-teal: #10a99b;
+  --sm-teal-strong: #0f766e;
+  --sm-cyan: #67dff2;
+  font-family: "Hanken Grotesk", ui-sans-serif, system-ui, -apple-system, sans-serif;
+}
+.synari-marketing .sm-serif { font-family: "Newsreader", Georgia, serif; font-style: italic; }

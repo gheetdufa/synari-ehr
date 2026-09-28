@@ -1,0 +1,8 @@
+﻿Client,Client type,Clinician,Date added,Last appointment,Next appointment,Address,City,State,ZIP,Phone number,Email,Primary insurance,Insurance ID,Status,Contact name,Contact phone number,Contact email
+Jane Doe,Adult,"Jordan Lee, LCSW",01/02/2024,01/13/2025,,12 Elm St,Springfield,IL,62701,(555) 201-0001,jane.doe@example.com,Aetna,W123456789,Active,John Doe,(555) 201-0099,john.doe@example.com
+Katherine Smith,Adult,"Maya Chen, LMFT",03/15/2024,01/06/2025,,40 Oak Ave,Springfield,IL,62702,555-201-0002,kate.smith@example.com,,,Active,,,
+Liam Johnson,Minor,"Jordan Lee, LCSW",05/01/2024,01/06/2025,,7 Pine Rd,Springfield,IL,62703,555-201-0003,,Blue Cross Blue Shield,XJ998877,Active,Olivia Johnson,555-201-0003,olivia.j@example.com
+Robert Brown Jr.,Adult,"Jordan Lee, LCSW",06/01/2023,02/03/2025,,,,,,555-201-0004,rbrown@example.com,,,Inactive,,,
+Maria Garcia,Adult,"Maya Chen, LMFT",08/20/2025,,,,,,,555-201-0005,maria.g@example.com,,,Prospective,,,
+Alex Morgan,Adult,"Jordan Lee, LCSW",02/02/2024,,,,,,,555-201-0006,alex.m1@example.com,,,Active,,,
+Alex Morgan,Adult,"Jordan Lee, LCSW",02/03/2024,,,,,,,555-201-0007,alex.m2@example.com,,,Active,,,

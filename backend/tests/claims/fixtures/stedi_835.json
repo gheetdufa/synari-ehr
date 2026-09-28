@@ -1,0 +1,134 @@
+{
+  "meta": {"applicationMode": "test", "traceId": "b7c1d2e3-0000-4000-8000-000000000835"},
+  "transactions": [
+    {
+      "controlNumber": "0001",
+      "productionDate": "20260925",
+      "financialInformation": {
+        "transactionHandlingCode": "I",
+        "totalActualProviderPaymentAmount": "176.5",
+        "creditOrDebitFlagCode": "C",
+        "paymentMethodCode": "ACH",
+        "paymentFormatCode": "CCP",
+        "checkIssueOrEFTEffectiveDate": "20260926"
+      },
+      "paymentAndRemitReassociationDetails": {
+        "traceTypeCode": "1",
+        "checkOrEFTTraceNumber": "EFT20260926001",
+        "originatingCompanyIdentifier": "1512345678"
+      },
+      "payer": {
+        "name": "EVERGREEN HEALTH PLAN",
+        "payerIdentificationNumber": "EVRGN",
+        "address": {"address1": "1 PAYER WAY", "city": "PORTLAND", "state": "OR", "postalCode": "97201"}
+      },
+      "payee": {"name": "MAPLE COUNSELING GROUP", "npi": "1111111112", "taxId": "987654321"},
+      "detailInfo": [
+        {
+          "assignedNumber": "1",
+          "paymentInfo": [
+            {
+              "claimPaymentInfo": {
+                "patientControlNumber": "C2002",
+                "claimStatusCode": "1",
+                "totalClaimChargeAmount": "320.5",
+                "claimPaymentAmount": "190",
+                "patientResponsibilityAmount": "60",
+                "claimFilingIndicatorCode": "12",
+                "payerClaimControlNumber": "EVG2026090100077",
+                "facilityTypeCode": "11",
+                "claimFrequencyCode": "1"
+              },
+              "patientName": {"firstName": "RILEY", "lastName": "SMITH", "memberId": "EVG555000111"},
+              "serviceLines": [
+                {
+                  "serviceDate": "20260901",
+                  "lineItemControlNumber": "C2002-1",
+                  "servicePaymentInformation": {
+                    "productOrServiceIDQualifier": "HC",
+                    "adjudicatedProcedureCode": "90791",
+                    "lineItemChargeAmount": "180",
+                    "lineItemProviderPaymentAmount": "110",
+                    "unitsOfServicePaidCount": "1"
+                  },
+                  "serviceAdjustments": [
+                    {"claimAdjustmentGroupCode": "CO", "adjustmentReasonCode1": "45", "adjustmentAmount1": "40"},
+                    {"claimAdjustmentGroupCode": "PR", "adjustmentReasonCode1": "2", "adjustmentAmount1": "30"}
+                  ],
+                  "serviceSupplementalAmounts": {"allowedActual": "140"}
+                },
+                {
+                  "serviceDate": "20260908",
+                  "lineItemControlNumber": "C2002-2",
+                  "servicePaymentInformation": {
+                    "productOrServiceIDQualifier": "HC",
+                    "adjudicatedProcedureCode": "90834",
+                    "adjudicatedProcedureModifierCodes": ["95", "HO"],
+                    "lineItemChargeAmount": "140.5",
+                    "lineItemProviderPaymentAmount": "80",
+                    "unitsOfServicePaidCount": "1"
+                  },
+                  "serviceAdjustments": [
+                    {"claimAdjustmentGroupCode": "CO", "adjustmentReasonCode1": "45", "adjustmentAmount1": "30.5"},
+                    {"claimAdjustmentGroupCode": "PR", "adjustmentReasonCode1": "3", "adjustmentAmount1": "30"}
+                  ],
+                  "serviceSupplementalAmounts": {"allowedActual": "110"},
+                  "healthCareCheckRemarkCodes": [
+                    {"codeListQualifierCode": "HE", "remarkCode": "N130", "remark": "Consult plan benefit documents"}
+                  ]
+                }
+              ]
+            },
+            {
+              "claimPaymentInfo": {
+                "patientControlNumber": "C1001",
+                "claimStatusCode": "22",
+                "totalClaimChargeAmount": "-150",
+                "claimPaymentAmount": "-90",
+                "patientResponsibilityAmount": "-30",
+                "claimFilingIndicatorCode": "12",
+                "payerClaimControlNumber": "EVG20260915001"
+              },
+              "claimAdjustments": [
+                {"claimAdjustmentGroupCode": "CO", "adjustmentReasonCode1": "45", "adjustmentAmount1": "-30"},
+                {"claimAdjustmentGroupCode": "PR", "adjustmentReasonCode1": "2", "adjustmentAmount1": "-30"}
+              ]
+            },
+            {
+              "claimPaymentInfo": {
+                "patientControlNumber": "C1001",
+                "claimStatusCode": "1",
+                "totalClaimChargeAmount": "150",
+                "claimPaymentAmount": "100",
+                "patientResponsibilityAmount": "20",
+                "claimFilingIndicatorCode": "12",
+                "payerClaimControlNumber": "EVG20260915001"
+              },
+              "claimAdjustments": [
+                {
+                  "claimAdjustmentGroupCode": "CO",
+                  "adjustmentReasonCode1": "45",
+                  "adjustmentAmount1": "30",
+                  "adjustmentQuantity1": "1",
+                  "adjustmentReasonCode2": "253",
+                  "adjustmentAmount2": "0"
+                },
+                {"claimAdjustmentGroupCode": "PR", "adjustmentReasonCode1": "2", "adjustmentAmount1": "20"}
+              ]
+            }
+          ]
+        }
+      ],
+      "providerAdjustments": [
+        {
+          "providerIdentifier": "1111111112",
+          "fiscalPeriodDate": "20261231",
+          "adjustments": [
+            {"adjustmentReasonCode": "WO", "providerAdjustmentIdentifier": "EVG2026080100012", "providerAdjustmentAmount": "25"},
+            {"adjustmentReasonCode": "L6", "providerAdjustmentAmount": "-1.5"}
+          ]
+        }
+      ]
+    }
+  ]
+}

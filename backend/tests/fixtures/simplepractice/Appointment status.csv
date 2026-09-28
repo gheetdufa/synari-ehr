@@ -1,0 +1,11 @@
+﻿Appointment status
+01/01/2025 - 12/31/2099
+Date of Service,Client,Clinician,CPT code,Units,Client charge,Claim status,Charge,Paid,Write off,Unpaid,Details,Progress Note Status
+01/06/2025,Jane Doe,"Jordan Lee, LCSW",90837,1,$25.00,Paid,$150.00,$125.00,$0.00,$0.00,,Locked
+01/13/2025,Jane Doe,"Jordan Lee, LCSW",90837,1,$25.00,Paid,$150.00,$125.00,$0.00,$0.00,,Locked
+01/06/2025,Kate Smith,"Maya Chen, LMFT",90834,1,$130.00,,$130.00,$0.00,$0.00,$0.00,,Locked
+01/06/2025,Liam Johnson,"Jordan Lee, LCSW",90832,1,$20.00,Submitted,$100.00,$0.00,$0.00,$100.00,,No Note
+02/03/2025,Robert Brown,"Jordan Lee, LCSW",90834,1,$120.00,,$120.00,$0.00,$0.00,$120.00,,Unlocked
+02/10/2025,Alex Morgan,"Jordan Lee, LCSW",90791,1,$180.00,,$180.00,$180.00,$0.00,$0.00,,Locked
+01/06/2099,Jane Doe,"Jordan Lee, LCSW",90837,1,$25.00,,$150.00,$0.00,$0.00,$0.00,,No Note
+not a date,Jane Doe,"Jordan Lee, LCSW",90837,1,,,$150.00,,,,,

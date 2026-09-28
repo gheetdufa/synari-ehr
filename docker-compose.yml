@@ -1,0 +1,83 @@
+# Local development services for Synari.
+#
+#   docker compose up -d            # Postgres, Mailpit (email catcher) and a LiveKit dev server
+#   docker compose --profile app up # also runs the API, background worker and web app in containers
+#
+# For production self-hosting see deploy/README.md.
+
+services:
+  db:
+    image: postgres:17.11-alpine@sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24
+    environment:
+      POSTGRES_USER: synari
+      POSTGRES_PASSWORD: synari
+      POSTGRES_DB: synari
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U synari"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+
+  mailpit:
+    image: axllent/mailpit:v1.31.2@sha256:74d609a42ec279aa63c6b4622a6fa9b5408d1ad5b1d76a1c4be40a265ce0863d
+    ports:
+      - "${MAILPIT_UI_PORT:-8025}:8025"
+      - "${MAILPIT_SMTP_PORT:-1025}:1025"
+
+  livekit:
+    image: livekit/livekit-server:v1.13.7@sha256:6fd3b7088874c4d119160dd688798dfec852bc014786d392caad15f6f63912a3
+    # --dev uses the API key "devkey" and secret "secret"; never use dev mode in production.
+    command: --dev --bind 0.0.0.0 --node-ip 127.0.0.1
+    ports:
+      - "7880:7880"
+      - "7881:7881"
+      - "7882:7882/udp"
+
+  api:
+    profiles: ["app"]
+    build: ./backend
+    env_file: ./backend/.env
+    environment:
+      DATABASE_URL: postgresql+psycopg://synari:synari@db:5432/synari
+      SMTP_HOST: mailpit
+      SMTP_PORT: "1025"
+    command: sh -c "alembic upgrade head && uvicorn synari.main:app --host 0.0.0.0 --port 8000 --no-access-log"
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  worker:
+    profiles: ["app"]
+    build: ./backend
+    env_file: ./backend/.env
+    environment:
+      DATABASE_URL: postgresql+psycopg://synari:synari@db:5432/synari
+      SMTP_HOST: mailpit
+      SMTP_PORT: "1025"
+    command: python -m synari.worker
+    depends_on:
+      db:
+        condition: service_healthy
+
+  web:
+    profiles: ["app"]
+    build:
+      context: ./frontend
+      args:
+        VITE_API_URL: http://localhost:8000/api
+    environment:
+      # The page's CSP must allow the API and LiveKit, which run on other ports here.
+      CSP_CONNECT_SRC: http://localhost:8000 ws://localhost:8000 http://localhost:7880 ws://localhost:7880
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api
+
+volumes:
+  db-data:

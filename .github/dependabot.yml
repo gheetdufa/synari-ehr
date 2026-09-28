@@ -1,0 +1,62 @@
+# Weekly version updates; minor and patch bumps are grouped into one PR per ecosystem, majors
+# arrive individually. The cooldown skips releases younger than a week so a compromised package
+# version is usually yanked before it is proposed (security updates are not delayed).
+version: 2
+updates:
+  - package-ecosystem: uv
+    directory: /backend
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 7
+    groups:
+      python-minor-and-patch:
+        update-types: [minor, patch]
+
+  - package-ecosystem: npm
+    directory: /frontend
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 7
+    groups:
+      npm-minor-and-patch:
+        update-types: [minor, patch]
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 7
+    groups:
+      actions-minor-and-patch:
+        update-types: [minor, patch]
+
+  - package-ecosystem: docker
+    directories: [/backend, /frontend]
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 7
+    groups:
+      docker-minor-and-patch:
+        update-types: [minor, patch]
+    ignore:
+      # Python feature releases (3.12 -> 3.13) are deliberate upgrades, not routine bumps.
+      - dependency-name: python
+        update-types: [version-update:semver-major, version-update:semver-minor]
+
+  - package-ecosystem: docker-compose
+    directories: [/, /deploy]
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 7
+    groups:
+      compose-minor-and-patch:
+        update-types: [minor, patch]
+    ignore:
+      # A new Postgres major needs a dump and restore of the data volume.
+      - dependency-name: postgres
+        update-types: [version-update:semver-major]

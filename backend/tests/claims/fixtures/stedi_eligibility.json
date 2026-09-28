@@ -1,0 +1,109 @@
+{
+  "id": "ec_5f4a1c9e-0000-4000-8000-000000000001",
+  "payerId": "EVRGN",
+  "payer": {"name": {"organization": "EVERGREEN HEALTH PLAN"}, "type": "PAYER", "identification": "EVRGN"},
+  "provider": {"name": {"organization": "MAPLE COUNSELING GROUP"}, "npi": "1111111112"},
+  "subscriber": {
+    "memberId": "EVG555000111",
+    "name": {"person": {"firstName": "MORGAN", "lastName": "SMITH"}},
+    "dates": {"plan": {"start": "2026-01-01", "end": "2026-12-31"}},
+    "additionalInformation": {"group": {"number": "GRP100", "name": "MAPLE EMPLOYER GROUP"}}
+  },
+  "dependent": {
+    "name": {"person": {"firstName": "RILEY", "lastName": "SMITH"}},
+    "dateOfBirth": "2014-06-03",
+    "dates": {"plan": {"start": "2026-02-01", "end": "2026-12-31"}}
+  },
+  "plans": [
+    {
+      "name": "EVERGREEN FAMILY PPO",
+      "benefits": {
+        "statuses": [
+          {
+            "status": "ACTIVE_COVERAGE",
+            "coverageLevel": "FAMILY",
+            "service": {"system": "STC", "value": "30", "definition": "Health Benefit Plan Coverage"}
+          },
+          {
+            "status": "ACTIVE_COVERAGE",
+            "coverageLevel": "FAMILY",
+            "service": {"system": "STC", "value": "MH", "definition": "Mental Health"},
+            "priorAuthIndicator": "NOT_REQUIRED",
+            "messages": ["Telehealth visits use the office cost share"]
+          }
+        ],
+        "coPayment": [
+          {
+            "coverageLevel": "INDIVIDUAL",
+            "amount": "50",
+            "timePeriod": "VISIT",
+            "service": {"system": "STC", "value": "MH"},
+            "network": {"indicator": "OUT_OF_NETWORK"}
+          },
+          {
+            "coverageLevel": "INDIVIDUAL",
+            "amount": "20",
+            "timePeriod": "VISIT",
+            "service": {"system": "STC", "value": "MH"},
+            "network": {"indicator": "IN_NETWORK"},
+            "messages": ["Telehealth visits use the office cost share"]
+          },
+          {
+            "coverageLevel": "INDIVIDUAL",
+            "amount": "35",
+            "service": {"system": "STC", "value": "98"},
+            "network": {"indicator": "IN_NETWORK"}
+          }
+        ],
+        "coInsurance": [
+          {
+            "coverageLevel": "INDIVIDUAL",
+            "percent": "0.2",
+            "service": {"system": "STC", "value": "MH"},
+            "network": {"indicator": "IN_NETWORK"}
+          }
+        ],
+        "deductible": [
+          {
+            "coverageLevel": "FAMILY",
+            "amount": "3000",
+            "timePeriod": "CALENDAR_YEAR",
+            "service": {"system": "STC", "value": "30"},
+            "network": {"indicator": "IN_NETWORK"}
+          },
+          {
+            "coverageLevel": "INDIVIDUAL",
+            "amount": "1500",
+            "timePeriod": "CALENDAR_YEAR",
+            "service": {"system": "STC", "value": "30"},
+            "network": {"indicator": "IN_NETWORK"}
+          },
+          {
+            "coverageLevel": "INDIVIDUAL",
+            "amount": "500",
+            "timePeriod": "REMAINING",
+            "service": {"system": "STC", "value": "30"},
+            "network": {"indicator": "IN_NETWORK"}
+          }
+        ],
+        "outOfPocket": [
+          {
+            "coverageLevel": "INDIVIDUAL",
+            "amount": "6000",
+            "timePeriod": "CALENDAR_YEAR",
+            "network": {"indicator": "IN_NETWORK"}
+          },
+          {
+            "coverageLevel": "INDIVIDUAL",
+            "amount": "4200.75",
+            "timePeriod": "REMAINING",
+            "network": {"indicator": "IN_NETWORK"}
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [],
+  "warnings": [],
+  "x12": "ISA*00*~"
+}

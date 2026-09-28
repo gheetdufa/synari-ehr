@@ -1,0 +1,135 @@
+# Production self-hosting: Synari, Postgres and LiveKit behind Caddy with automatic HTTPS.
+#
+#   cp .env.example .env && cp synari.env.example synari.env   # then fill both in
+#   docker compose up -d --build
+#
+#   docker compose --profile backup up -d                       # also run nightly backups
+#
+# See README.md in this folder for DNS, firewall, backups and upgrades.
+
+services:
+  caddy:
+    image: caddy:2.11.4@sha256:0c994536bddb66445885237f1a5dcc1916bccea922661c76b4e9fc24061f9b52
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    environment:
+      SYNARI_DOMAIN: ${SYNARI_DOMAIN}
+      LIVEKIT_DOMAIN: ${LIVEKIT_DOMAIN}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    networks:
+      default:
+        # A fixed address, so the API trusts forwarded client IPs from Caddy and no one else.
+        ipv4_address: ${CADDY_IP:-172.30.0.10}
+    depends_on:
+      - web
+      - api
+
+  db:
+    image: postgres:17.11-alpine@sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: synari
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: synari
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U synari"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  api:
+    build: ../backend
+    restart: unless-stopped
+    env_file: ./synari.env
+    environment: &synari-env
+      ENVIRONMENT: production
+      DATABASE_URL: postgresql+psycopg://synari:${POSTGRES_PASSWORD}@db:5432/synari
+      FRONTEND_URL: https://${SYNARI_DOMAIN}
+      CORS_ORIGINS: https://${SYNARI_DOMAIN}
+      LIVEKIT_URL: wss://${LIVEKIT_DOMAIN}
+      LIVEKIT_API_KEY: ${LIVEKIT_API_KEY}
+      LIVEKIT_API_SECRET: ${LIVEKIT_API_SECRET}
+      STORAGE_LOCAL_PATH: /app/data/files
+      FORWARDED_ALLOW_IPS: ${CADDY_IP:-172.30.0.10}
+    volumes:
+      - files:/app/data
+    depends_on:
+      db:
+        condition: service_healthy
+
+  worker:
+    build: ../backend
+    restart: unless-stopped
+    command: python -m synari.worker
+    env_file: ./synari.env
+    environment: *synari-env
+    volumes:
+      - files:/app/data
+    depends_on:
+      db:
+        condition: service_healthy
+
+  web:
+    build:
+      context: ../frontend
+      args:
+        VITE_API_URL: /api
+    restart: unless-stopped
+    environment:
+      # Lets the app's Content-Security-Policy reach the video server.
+      CSP_CONNECT_SRC: wss://${LIVEKIT_DOMAIN} https://${LIVEKIT_DOMAIN}
+
+  livekit:
+    image: livekit/livekit-server:v1.13.7@sha256:6fd3b7088874c4d119160dd688798dfec852bc014786d392caad15f6f63912a3
+    restart: unless-stopped
+    command: --config /etc/livekit.yaml
+    environment:
+      LIVEKIT_KEYS: "${LIVEKIT_API_KEY}: ${LIVEKIT_API_SECRET}"
+    volumes:
+      - ./livekit.yaml:/etc/livekit.yaml:ro
+    ports:
+      - "7881:7881"
+      - "50000-50100:50000-50100/udp"
+
+  # Optional: encrypted backups at start-up and every 24 hours to BACKUP_TARGET (set it and
+  # AGE_RECIPIENTS in synari.env; README.md "Backups"). Enable with COMPOSE_PROFILES=backup in .env.
+  backup:
+    build: ../backend
+    profiles: ["backup"]
+    restart: unless-stopped
+    # Backs up at start and then daily. On stop, a backup in progress finishes first (up to the
+    # grace period) and the wait between backups ends at once.
+    command: >-
+      sh -c "trap 'exit 0' TERM INT;
+      while true; do python -m synari.admin backup; sleep 86400 & wait $$!; done"
+    stop_grace_period: 15m
+    env_file: ./synari.env
+    environment: *synari-env
+    volumes:
+      - files:/app/data:ro
+      - backups:/backups
+    depends_on:
+      db:
+        condition: service_healthy
+
+networks:
+  default:
+    ipam:
+      config:
+        # Change both this and CADDY_IP (in .env) if it collides with a network on your host.
+        - subnet: ${SYNARI_SUBNET:-172.30.0.0/24}
+
+volumes:
+  caddy-data:
+  caddy-config:
+  db-data:
+  files:
+  backups:

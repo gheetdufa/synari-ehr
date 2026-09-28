@@ -1,0 +1,47 @@
+# Secrets: only the documented examples are committed
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Local data (uploads, recordings, databases)
+backend/data/
+*.db
+*.sqlite3
+
+# Node / Vite
+node_modules/
+dist/
+dist-ssr/
+.vite/
+*.local
+*.tsbuildinfo
+
+# Capacitor native projects are generated with `npx cap add`
+frontend/ios/
+frontend/android/
+
+# Editors and OS
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+*.swp
+
+# Local tool settings
+.claude/settings.local.json
+.vercel
+logs/
+*.log
+
+# Local AI tooling
+.agents/
+.claude/

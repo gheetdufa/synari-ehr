@@ -1,0 +1,34 @@
+# Caddy obtains and renews TLS certificates for both domains automatically. It keeps no access
+# log (request paths can carry sign-in and video tokens); don't add a `log` directive.
+
+# TLS 1.2+ only, and browsers must use HTTPS for a year (HSTS) once they've visited.
+(hardened) {
+	tls {
+		protocols tls1.2 tls1.3
+	}
+	header {
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+		-Server
+	}
+}
+
+{$SYNARI_DOMAIN} {
+	import hardened
+	encode gzip
+	# API and its WebSocket (/api/ws). Each request gets an id the API puts in its logs.
+	handle /api/* {
+		reverse_proxy api:8000 {
+			header_up X-Request-ID {http.request.uuid}
+		}
+	}
+	# Web app (therapist app, client portal, booking and join pages)
+	handle {
+		reverse_proxy web:3000
+	}
+}
+
+# LiveKit signaling. Media flows directly over UDP 50000-50100 and TCP 7881.
+{$LIVEKIT_DOMAIN} {
+	import hardened
+	reverse_proxy livekit:7880
+}

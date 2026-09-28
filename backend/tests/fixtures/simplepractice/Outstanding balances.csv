@@ -1,0 +1,5 @@
+﻿Client,Clinician,Services provided,Uninvoiced,Invoiced,Client paid,Client balance
+Robert Brown Jr.,"Jordan Lee, LCSW",$120.00,$0.00,$120.00,$0.00,$120.00
+Jane Doe,"Jordan Lee, LCSW",$300.00,$0.00,$50.00,$50.00,$0.00
+Katie Smith,"Maya Chen, LMFT",$130.00,$0.00,$130.00,$84.50,$45.50
+Total,,$550.00,$0.00,$300.00,$134.50,$165.50
