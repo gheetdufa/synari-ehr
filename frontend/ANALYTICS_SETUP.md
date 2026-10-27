@@ -1,7 +1,7 @@
 # Analytics (optional)
 
 Synari ships with no analytics turned on. You can enable page analytics for the **public marketing
-pages only**: `/`, `/demo`, `/features`, `/about`, `/login`, `/register` and the legal pages. The
+pages only**: `/`, `/about`, `/login`, `/register` and the legal pages. The
 therapist app, client portal, video sessions and booking pages never load an analytics script or send
 events, because those screens can show health information. See `src/lib/analytics.ts`.
 
@@ -22,8 +22,6 @@ Events sent from marketing pages:
 | --- | --- |
 | `page_view` | A marketing page is shown |
 | `cta_click` | A header call-to-action is clicked |
-| `waitlist_join` | The waitlist form is submitted |
-| `demo_request` | The demo form is submitted (practice type and size only) |
 
 ## Vercel Web Analytics
 

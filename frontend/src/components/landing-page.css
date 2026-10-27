@@ -84,40 +84,22 @@ html { scroll-behavior: smooth; }
   letter-spacing: -0.02em;
 }
 
-.synari-landing .email-form {
+.synari-landing .cta-row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 30px; }
+.synari-landing .cta-primary, .synari-landing .cta-secondary {
   display: flex;
-  width: min(100%, 430px);
-  min-height: 58px;
-  align-items: center;
-  gap: 8px;
-  margin-top: 30px;
-  padding: 6px;
-  border: 1px solid rgba(9, 58, 64, 0.12);
-  border-radius: 17px;
-  background: rgba(255, 255, 255, 0.9);
-  box-shadow: 0 16px 40px rgba(9, 58, 64, 0.1);
-  backdrop-filter: blur(14px);
-}
-.synari-landing .email-form input { width: 100%; min-width: 0; padding: 0 12px; border: 0; outline: 0; color: var(--ink); background: transparent; font-size: 15px; }
-.synari-landing .email-form input::placeholder { color: rgba(9, 58, 64, 0.5); }
-.synari-landing .email-form button {
-  display: flex;
-  flex: 0 0 auto;
-  height: 44px;
+  height: 52px;
   align-items: center;
   gap: 9px;
-  padding: 0 18px;
-  border: 0;
-  border-radius: 12px;
-  background: linear-gradient(120deg, #0e8177, var(--teal-strong));
-  color: #fff;
+  padding: 0 22px;
+  border-radius: 14px;
+  font-size: 15px;
   font-weight: 600;
-  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s, filter 0.25s;
+  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s, filter 0.25s, background 0.25s;
 }
-.synari-landing .email-form button:hover { transform: translateY(-1px); box-shadow: 0 10px 24px rgba(15, 118, 110, 0.35); filter: brightness(1.06); }
-.synari-landing .email-form-dark { border-color: rgba(134, 231, 222, 0.22); background: rgba(6, 51, 58, 0.55); }
-.synari-landing .email-form-dark input { color: #fff; }
-.synari-landing .email-form-dark input::placeholder { color: rgba(222, 248, 245, 0.62); }
+.synari-landing .cta-primary { color: #fff; background: linear-gradient(120deg, #11a091, var(--teal-strong)); box-shadow: 0 16px 40px rgba(2, 20, 24, 0.35); }
+.synari-landing .cta-primary:hover { transform: translateY(-1px); box-shadow: 0 12px 28px rgba(15, 118, 110, 0.45); filter: brightness(1.06); }
+.synari-landing .cta-secondary { border: 1px solid rgba(134, 231, 222, 0.26); color: #e4faf7; background: rgba(6, 51, 58, 0.55); backdrop-filter: blur(14px); }
+.synari-landing .cta-secondary:hover { transform: translateY(-1px); background: rgba(10, 70, 78, 0.7); }
 
 /* ---------- nav ---------- */
 
@@ -177,8 +159,8 @@ html { scroll-behavior: smooth; }
   transform-origin: left;
   animation: navLine 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
-.synari-landing .nav .nav-demo::before { background: var(--teal-strong); }
-.synari-landing .nav .nav-demo.is-highlighted { color: #fff; }
+.synari-landing .nav .nav-github::before { background: var(--teal-strong); }
+.synari-landing .nav .nav-github.is-highlighted { color: #fff; }
 .synari-landing .nav .nav-login { margin-left: 4px; color: #fff; }
 .synari-landing .nav .nav-login::before { opacity: 1; transform: scale(1); background: var(--deep-2); box-shadow: 0 8px 22px rgba(4, 38, 44, 0.3); }
 .synari-landing .nav .nav-login:hover::before, .synari-landing .nav .nav-login:focus-visible::before { background: var(--teal-strong); }
@@ -445,7 +427,7 @@ html { scroll-behavior: smooth; }
 .synari-landing .bubble { max-width: 78%; margin: 18px 14px 8px; padding: 11px 13px; border-radius: 13px; font-size: 11.5px; line-height: 1.45; }
 .synari-landing .incoming { background: #edf7f5; color: var(--ink); }
 .synari-landing .outgoing { margin: 8px 14px 18px auto; color: #fff; background: linear-gradient(120deg, #11897e, var(--teal-strong)); }
-.synari-landing .assistant-line { display: flex; align-items: center; gap: 6px; margin: 15px 14px; color: var(--teal-strong); font-size: 9px; font-weight: 650; letter-spacing: 0.1em; text-transform: uppercase; }
+.synari-landing .message-receipt { display: flex; align-items: center; justify-content: flex-end; gap: 5px; margin: -8px 14px 16px; color: var(--teal-strong); font-size: 9px; font-weight: 650; letter-spacing: 0.1em; text-transform: uppercase; }
 .synari-landing .billing-total { display: flex; flex-direction: column; gap: 2px; padding: 22px 18px; }
 .synari-landing .billing-total small, .synari-landing .billing-total span { color: #6d9296; font-size: 10px; }
 .synari-landing .billing-total strong { font-size: 38px; font-weight: 650; letter-spacing: -0.035em; font-variant-numeric: tabular-nums; }
@@ -474,7 +456,7 @@ html { scroll-behavior: smooth; }
   box-shadow: 0 40px 90px rgba(9, 58, 64, 0.08);
   grid-template-columns: 0.92fr 1.08fr;
 }
-.synari-landing .convergence h2 { font-size: clamp(38px, 4.4vw, 62px); line-height: 1.04; }
+.synari-landing .convergence h2 { font-size: clamp(38px, 4.4vw, 62px); line-height: 1.04; text-wrap: balance; }
 .synari-landing .convergence h2 em {
   margin-top: 0.06em;
   background: var(--grad-ink);
@@ -589,41 +571,47 @@ html { scroll-behavior: smooth; }
 .synari-landing .workflow-card:hover .workflow-icon { transform: rotate(-7deg) scale(1.08); }
 .synari-landing .workflow-card h3 { margin: 0 0 10px; font-size: 27px; font-weight: 600; letter-spacing: -0.025em; text-shadow: 0 2px 18px rgba(0, 0, 0, 0.35); }
 .synari-landing .workflow-card p { margin: 0; color: rgba(226, 247, 244, 0.78); font-size: 13.5px; line-height: 1.55; text-shadow: 0 1px 12px rgba(0, 0, 0, 0.4); }
+.synari-landing .workflow-foot { display: flex; width: min(100%, 1320px); flex-wrap: wrap; align-items: center; gap: 14px 28px; margin: 54px auto 0; color: rgba(226, 247, 244, 0.66); font-size: 14px; }
+.synari-landing .workflow-foot .panel-link { margin-top: 0; color: #8be0d6; }
+.synari-landing .workflow-foot span a { color: #e4faf7; text-decoration: underline; text-underline-offset: 3px; }
 
-/* ---------- testimonial ---------- */
+/* ---------- safeguards ---------- */
 
-.synari-landing .testimonial-section { padding: 150px 24px 30px; }
-.synari-landing .testimonial { display: grid; width: min(100%, 1280px); min-height: 620px; gap: 20px; margin: 0 auto; grid-template-columns: 1fr 1fr; }
-.synari-landing .testimonial-photo, .synari-landing .testimonial blockquote { position: relative; overflow: hidden; border-radius: 30px; }
-.synari-landing .testimonial-photo { min-height: 480px; }
-.synari-landing .testimonial-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 1.4s cubic-bezier(0.22, 1, 0.36, 1); }
-.synari-landing .testimonial:hover .testimonial-photo img { transform: scale(1.05); }
-.synari-landing .testimonial-wash { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(16, 169, 155, 0.08), rgba(4, 38, 44, 0.28)); }
+.synari-landing .safeguards-section { padding: 150px 24px 30px; }
+.synari-landing .safeguards { display: grid; width: min(100%, 1280px); min-height: 620px; gap: 20px; margin: 0 auto; grid-template-columns: 1fr 1fr; }
+.synari-landing .safeguards-photo, .synari-landing .safeguards-panel { position: relative; overflow: hidden; border-radius: 30px; }
+.synari-landing .safeguards-photo { min-height: 480px; }
+.synari-landing .safeguards-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 1.4s cubic-bezier(0.22, 1, 0.36, 1); }
+.synari-landing .safeguards:hover .safeguards-photo img { transform: scale(1.05); }
+.synari-landing .safeguards-wash { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(16, 169, 155, 0.08), rgba(4, 38, 44, 0.28)); }
 .synari-landing .photo-pill { position: absolute; bottom: 20px; left: 20px; display: flex; align-items: center; gap: 8px; padding: 10px 13px; border-radius: 11px; background: rgba(255, 255, 255, 0.85); font-size: 10.5px; font-weight: 550; backdrop-filter: blur(12px); }
-.synari-landing .testimonial blockquote {
+.synari-landing .safeguards-panel {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  margin: 0;
   padding: 56px;
   color: #f2fcfb;
   background:
     radial-gradient(110% 100% at 88% -10%, rgba(103, 223, 242, 0.16) 0%, transparent 55%),
     linear-gradient(150deg, #0b4f4a 0%, #063a3e 100%);
 }
-.synari-landing .quote-mark { width: 44px; }
-.synari-landing .testimonial blockquote > p {
-  margin: 40px 0;
+.synari-landing .safeguards-mark { width: 44px; }
+.synari-landing .safeguards-panel h2 {
+  margin: 36px 0 28px;
   font-family: var(--serif);
   font-style: italic;
-  font-size: clamp(34px, 3.6vw, 56px);
+  font-size: clamp(32px, 3.2vw, 48px);
   font-weight: 400;
   letter-spacing: -0.02em;
   line-height: 1.08;
 }
-.synari-landing .testimonial blockquote footer { display: flex; flex-direction: column; gap: 5px; }
-.synari-landing .testimonial blockquote footer strong { font-size: 14px; font-weight: 600; }
-.synari-landing .testimonial blockquote footer span { color: rgba(226, 247, 244, 0.62); font-size: 12px; }
+.synari-landing .safeguards-panel ul { display: grid; gap: 13px; margin: 0 0 36px; padding: 0; list-style: none; }
+.synari-landing .safeguards-panel li { display: flex; align-items: center; gap: 11px; color: rgba(226, 247, 244, 0.86); font-size: 15px; }
+.synari-landing .safeguards-panel li svg { flex: 0 0 auto; color: #8be0d6; }
+.synari-landing .safeguards-panel footer { display: flex; flex-direction: column; gap: 6px; padding-top: 22px; border-top: 1px solid rgba(134, 231, 222, 0.16); }
+.synari-landing .safeguards-panel footer strong { font-size: 14px; font-weight: 600; }
+.synari-landing .safeguards-panel footer span { max-width: 52ch; color: rgba(226, 247, 244, 0.62); font-size: 12.5px; line-height: 1.55; }
+.synari-landing .safeguards-panel footer a { color: #8be0d6; text-decoration: underline; text-underline-offset: 3px; }
 
 /* ---------- faq ---------- */
 
@@ -657,9 +645,10 @@ html { scroll-behavior: smooth; }
 .synari-landing .faq-item button { display: flex; width: 100%; align-items: center; justify-content: space-between; gap: 16px; padding: 21px 22px; border: 0; color: var(--ink); background: transparent; font-size: 15px; font-weight: 550; text-align: left; }
 .synari-landing .faq-item button svg { flex: 0 0 auto; color: var(--teal-strong); transition: transform 0.3s; }
 .synari-landing .faq-item.open button svg { transform: rotate(45deg); }
-.synari-landing .faq-answer { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.4s cubic-bezier(0.22, 1, 0.36, 1); }
+.synari-landing .faq-answer { display: grid; grid-template-rows: 0fr; visibility: hidden; transition: grid-template-rows 0.4s cubic-bezier(0.22, 1, 0.36, 1), visibility 0.4s; }
 .synari-landing .faq-answer p { min-height: 0; margin: 0; overflow: hidden; color: var(--ink-soft); font-size: 14px; line-height: 1.6; }
-.synari-landing .faq-item.open .faq-answer { grid-template-rows: 1fr; }
+.synari-landing .faq-answer a { color: var(--teal-strong); font-weight: 550; text-decoration: underline; text-underline-offset: 3px; }
+.synari-landing .faq-item.open .faq-answer { grid-template-rows: 1fr; visibility: visible; }
 .synari-landing .faq-item.open .faq-answer p { padding: 0 22px 22px; }
 
 /* ---------- closing ---------- */
@@ -689,7 +678,9 @@ html { scroll-behavior: smooth; }
   color: transparent;
 }
 .synari-landing .closing-content > p { margin: 24px 0 0; color: rgba(228, 250, 247, 0.74); font-size: 15.5px; }
-.synari-landing .closing .email-form { justify-content: center; }
+.synari-landing .closing .cta-row { justify-content: center; }
+.synari-landing .closing-content > .closing-help { margin-top: 22px; color: rgba(228, 250, 247, 0.56); font-size: 13.5px; }
+.synari-landing .closing-help a { color: #e4faf7; text-decoration: underline; text-underline-offset: 3px; }
 
 /* ---------- footer ---------- */
 
@@ -774,7 +765,7 @@ html { scroll-behavior: smooth; }
   .synari-landing .hero-copy { text-align: center; }
   .synari-landing .hero-copy .eyebrow { justify-content: center; }
   .synari-landing .hero-subtitle { margin-inline: auto; }
-  .synari-landing .hero .email-form { margin-inline: auto; }
+  .synari-landing .hero .cta-row { justify-content: center; }
 
   .synari-landing .layers { height: 500vh; }
   .synari-landing .layers-viewport { align-items: start; align-content: start; gap: 0; padding: 86px 24px 0; grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
@@ -794,21 +785,21 @@ html { scroll-behavior: smooth; }
   .synari-landing .convergence { margin-bottom: 120px; grid-template-columns: 1fr; }
   .synari-landing .convergence-stage { max-width: 560px; margin: 0 auto; }
   .synari-landing .workflow-cards { grid-template-columns: 1fr 1fr; }
-  .synari-landing .testimonial { min-height: 0; grid-template-columns: 1fr; }
-  .synari-landing .testimonial-photo { min-height: 380px; }
+  .synari-landing .safeguards { min-height: 0; grid-template-columns: 1fr; }
+  .synari-landing .safeguards-photo { min-height: 380px; }
 }
 
 @media (max-width: 700px) {
   .synari-landing .nav { top: 12px; }
   .synari-landing .nav a { height: 42px; padding: 0 12px; font-size: 12.5px; }
-  .synari-landing .nav .nav-faq, .synari-landing .nav .nav-demo { display: none; }
+  .synari-landing .nav .nav-how, .synari-landing .nav .nav-faq { display: none; }
   .synari-landing .nav .nav-login { margin-left: 2px; }
   .synari-landing .nav-home .brand-word { display: none; }
 
   .synari-landing .hero h1 { font-size: clamp(38px, 10.5vw, 52px); }
   .synari-landing .hero-stack { width: min(78vw, 300px); }
   .synari-landing .scroll-cue { display: none; }
-  .synari-landing .email-form button { padding: 0 14px; font-size: 13px; }
+  .synari-landing .cta-primary, .synari-landing .cta-secondary { height: 48px; padding: 0 18px; font-size: 14px; }
 
   .synari-landing .layers-viewport { padding: 78px 18px 0; }
   .synari-landing .story-panel .product-mock { width: 100%; }
@@ -821,8 +812,8 @@ html { scroll-behavior: smooth; }
   .synari-landing .workflow-cards > div { flex: 0 0 78vw; scroll-snap-align: center; }
   .synari-landing .workflow-card { min-height: 340px; }
 
-  .synari-landing .testimonial-section { padding-top: 100px; }
-  .synari-landing .testimonial blockquote { padding: 32px; }
+  .synari-landing .safeguards-section { padding-top: 100px; }
+  .synari-landing .safeguards-panel { padding: 32px; }
   .synari-landing .faq { padding: 90px 16px 120px; }
 
   .synari-landing .closing { width: calc(100% - 32px); border-radius: 26px; }

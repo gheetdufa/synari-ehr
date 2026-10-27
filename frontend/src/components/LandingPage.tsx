@@ -1,5 +1,4 @@
-import { CSSProperties, FormEvent, PointerEvent as ReactPointerEvent, ReactNode, useEffect, useId, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { CSSProperties, PointerEvent as ReactPointerEvent, ReactNode, useEffect, useId, useRef, useState } from "react";
 import {
   motion,
   useMotionValueEvent,
@@ -11,62 +10,132 @@ import {
 import type { MotionValue } from "framer-motion";
 import "./landing-page.css";
 
-type IconName = "calendar" | "notes" | "spark" | "bill" | "shield" | "arrow" | "plus" | "check" | "message" | "clock" | "chevron";
+type IconName =
+  | "calendar"
+  | "notes"
+  | "bill"
+  | "shield"
+  | "arrow"
+  | "plus"
+  | "check"
+  | "message"
+  | "chevron"
+  | "code"
+  | "sliders"
+  | "server"
+  | "import";
 type ProductType = "notes" | "messages" | "billing";
 type LayerTone = "base" | "mid" | "top";
 
 const easeOutSoft: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
-const faqs = [
-  [
-    "What can Synari handle for my practice?",
-    "Synari supports the work around care: scheduling, clinical documentation, client communication, billing workflows, insurance verification, and practice reporting.",
-  ],
-  [
-    "Will Synari replace the tools I already use?",
-    "Synari is designed to fit into your existing workflow. During onboarding, we map the systems you use today and help you decide what to connect, keep, or simplify.",
-  ],
-  [
-    "How does AI documentation work?",
-    "With your consent and controls, Synari turns session context into structured draft notes. You review and approve every clinical document before it becomes part of the record.",
-  ],
-  [
-    "Is Synari HIPAA compliant?",
-    "Yes. Synari is built for healthcare workflows with privacy, encryption, access controls, and HIPAA-conscious operational practices at its foundation.",
-  ],
-  [
-    "How long does setup take?",
-    "Most practices can begin with a focused workflow in days. We expand automation gradually so your team stays comfortable and in control.",
-  ],
-  [
-    "What does Synari cost?",
-    "Plans are tailored to practice size and the workflows you want to automate. Book a demo and we will recommend the simplest useful starting point.",
-  ],
+const repoUrl = "https://github.com/gheetdufa/synari-ehr";
+const docsUrl = `${repoUrl}/blob/main`;
+const contactEmail = "gudadheer@gmail.com";
+
+function ExternalLink({ href, className, children }: { href: string; className?: string; children: ReactNode }) {
+  return (
+    <a className={className} href={href} target="_blank" rel="noopener noreferrer">
+      {children}
+    </a>
+  );
+}
+
+const faqs: { question: string; answer: ReactNode }[] = [
+  {
+    question: "What is Synari?",
+    answer:
+      "Practice management for therapy practices, solo or group: scheduling, a client portal, secure messaging, telehealth, intake forms, clinical notes, billing and insurance claims. It's open source, and you run it on your own server.",
+  },
+  {
+    question: "Is it really free?",
+    answer: (
+      <>
+        Yes. Synari is licensed under the{" "}
+        <ExternalLink href={`${docsUrl}/LICENSE`}>GNU AGPL-3.0</ExternalLink>: you can use it, change it and run it
+        for your practice at no cost. If you modify it and let others use it over a network, you share your changes
+        under the same license.
+      </>
+    ),
+  },
+  {
+    question: "Is there a hosted version?",
+    answer: (
+      <>
+        Synari is built to self-host, and the <ExternalLink href={`${docsUrl}/deploy/README.md`}>deploy guide</ExternalLink>{" "}
+        walks through a single server with automatic HTTPS. If your practice wants help setting it up, email{" "}
+        <a href={`mailto:${contactEmail}`}>{contactEmail}</a>.
+      </>
+    ),
+  },
+  {
+    question: "Is Synari HIPAA compliant?",
+    answer: (
+      <>
+        No software is HIPAA compliant on its own, and there's no official certification for it. Synari implements the
+        Security Rule's technical safeguards and documents each one in a{" "}
+        <ExternalLink href={`${docsUrl}/docs/hipaa/controls-matrix.md`}>controls matrix</ExternalLink>. Your practice
+        still needs Business Associate Agreements with your hosting and service providers, a risk analysis, policies and
+        training.
+      </>
+    ),
+  },
+  {
+    question: "What do I need to run it?",
+    answer:
+      "A Linux server with 2 vCPUs and 4 GB of RAM, Docker, two domain names and an SMTP account for email. Postgres, the LiveKit video server and automatic HTTPS come with the Docker setup. Text reminders, card payments, insurance claims and calendar sync are optional.",
+  },
+  {
+    question: "Can I move my practice over from SimplePractice?",
+    answer: (
+      <>
+        Yes. The <ExternalLink href={`${docsUrl}/docs/importing-from-simplepractice.md`}>importer</ExternalLink> reads
+        SimplePractice's exports and brings over clients, contacts, insurance, diagnoses, past sessions, documents and
+        balances, with a preview to confirm matches first.
+      </>
+    ),
+  },
+  {
+    question: "Does Synari use AI?",
+    answer:
+      "Only if you turn it on. The optional assistant drafts notes from your session notes, dictation or a consented recording, and you review and sign every note. It works with any OpenAI-compatible provider you configure; use one that has signed a BAA with you.",
+  },
+  {
+    question: "How do I get help or contribute?",
+    answer: (
+      <>
+        Open an issue or a pull request on <ExternalLink href={repoUrl}>GitHub</ExternalLink>; the{" "}
+        <ExternalLink href={`${docsUrl}/CONTRIBUTING.md`}>contributing guide</ExternalLink> covers setup and
+        conventions. Report security issues privately as described in{" "}
+        <ExternalLink href={`${docsUrl}/SECURITY.md`}>SECURITY.md</ExternalLink>.
+      </>
+    ),
+  },
 ];
 
 const chapters = [
   {
     num: "01",
     label: "Document",
-    eyebrow: "Clinical documentation",
-    title: "Notes that start themselves",
-    copy: "Synari turns session context into a thoughtful draft, ready for your review instead of waiting on your evening.",
+    eyebrow: "Clinical notes",
+    title: "Notes that keep up with you",
+    copy: "SOAP, DAP, BIRP or your own template, with supervisor co-signing. The optional AI assistant turns dictation or a consented recording into a draft you review and sign.",
     type: "notes" as ProductType,
   },
   {
     num: "02",
     label: "Communicate",
-    eyebrow: "Client communication",
+    eyebrow: "Client portal & telehealth",
     title: "Present, even between sessions",
-    copy: "Routine questions, rescheduling, and follow-ups move forward while you stay in control of every sensitive moment.",
+    copy: "Secure messaging, reminders by email and text, online booking, and video sessions in the browser. Crisis language in a message is flagged to you and your supervisor.",
     type: "messages" as ProductType,
   },
   {
     num: "03",
     label: "Get paid",
-    eyebrow: "Billing workflows",
+    eyebrow: "Billing & insurance",
     title: "Your work gets paid for",
-    copy: "From superbills to claim follow-up, Synari keeps the revenue cycle moving without turning you into a billing specialist.",
+    copy: "Card payments and AutoPay through Stripe, insurance claims through Stedi, an 837P file or CMS-1500, and insurance payments that post themselves when they match.",
     type: "billing" as ProductType,
   },
 ];
@@ -91,12 +160,6 @@ function Icon({ name, size = 18 }: { name: IconName; size?: number }) {
         <path d="M15 3v5h5M10 12h6m-6 4h6" />
       </>
     ),
-    spark: (
-      <>
-        <path d="m12 3 1.7 5.3L19 10l-5.3 1.7L12 17l-1.7-5.3L5 10l5.3-1.7z" />
-        <path d="m19 16 .7 2.3L22 19l-2.3.7L19 22l-.7-2.3L16 19l2.3-.7z" />
-      </>
-    ),
     bill: (
       <>
         <path d="M6 3h12v18l-3-2-3 2-3-2-3 2z" />
@@ -118,13 +181,23 @@ function Icon({ name, size = 18 }: { name: IconName; size?: number }) {
         <path d="M8 9h8m-8 3h5" />
       </>
     ),
-    clock: (
+    chevron: <path d="m7 10 5 5 5-5" />,
+    code: <path d="m8 8-4 4 4 4m8-8 4 4-4 4M13.5 5l-3 14" />,
+    sliders: (
       <>
-        <circle cx="12" cy="12" r="9" />
-        <path d="M12 7v5l3 2" />
+        <path d="M4 7h9m4 0h3M4 17h3m4 0h9" />
+        <circle cx="15" cy="7" r="2" />
+        <circle cx="9" cy="17" r="2" />
       </>
     ),
-    chevron: <path d="m7 10 5 5 5-5" />,
+    server: (
+      <>
+        <rect x="4" y="4" width="16" height="7" rx="2" />
+        <rect x="4" y="13" width="16" height="7" rx="2" />
+        <path d="M8 7.5h.01M8 16.5h.01" />
+      </>
+    ),
+    import: <path d="M12 4v11m-4-4 4 4 4-4M5 20h14" />,
   };
   return (
     <svg
@@ -209,10 +282,10 @@ function Reveal({ children, className, delay = 0 }: { children: ReactNode; class
 const navItems = [
   { id: "top", label: "Synari", home: true },
   { id: "layers", label: "Product" },
-  { id: "how", label: "How it works" },
+  { id: "how", label: "Self-host" },
   { id: "faq", label: "FAQ" },
-  { id: "demo", label: "Demo", demo: true },
-  { id: "login", label: "Sign in", login: true, href: "/login" },
+  { id: "github", label: "GitHub", href: repoUrl, external: true },
+  { id: "login", label: "Sign in", href: "/login" },
 ];
 
 function Nav({ activeSection, onNavigate }: { activeSection: string; onNavigate: (section: string) => void }) {
@@ -227,11 +300,12 @@ function Nav({ activeSection, onNavigate }: { activeSection: string; onNavigate:
             "nav-item",
             `nav-${item.id}`,
             item.home ? "nav-home" : "",
-            item.demo ? "nav-demo" : "",
             highlighted === item.id ? "is-highlighted" : "",
             activeSection === item.id ? "is-active" : "",
           ].filter(Boolean).join(" ")}
           href={item.href || `#${item.id}`}
+          target={item.external ? "_blank" : undefined}
+          rel={item.external ? "noopener noreferrer" : undefined}
           aria-label={item.home ? "Synari home" : undefined}
           aria-current={activeSection === item.id ? "page" : undefined}
           onMouseEnter={() => setHovered(item.id)}
@@ -239,7 +313,7 @@ function Nav({ activeSection, onNavigate }: { activeSection: string; onNavigate:
           onBlur={() => setHovered(null)}
           onClick={() => {
             setHovered(null);
-            if (!item.login) onNavigate(item.id);
+            if (!item.href) onNavigate(item.id);
           }}
         >
           {item.home ? <Brand /> : item.label}
@@ -249,21 +323,12 @@ function Nav({ activeSection, onNavigate }: { activeSection: string; onNavigate:
   );
 }
 
-function DemoForm({ dark = false }: { dark?: boolean }) {
-  const [email, setEmail] = useState("");
-  const inputId = useId();
-  const navigate = useNavigate();
-  function submit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    if (!email) return;
-    navigate("/demo", { state: { email } });
-  }
+function GetStarted() {
   return (
-    <form className={`email-form ${dark ? "email-form-dark" : ""}`} onSubmit={submit}>
-      <label className="sr-only" htmlFor={inputId}>Your work email</label>
-      <input id={inputId} type="email" required value={email} onChange={(event) => setEmail(event.target.value)} placeholder="Your work email" />
-      <button type="submit">Get a demo <Icon name="arrow" size={16} /></button>
-    </form>
+    <div className="cta-row">
+      <ExternalLink className="cta-primary" href={repoUrl}>View on GitHub <Icon name="arrow" size={16} /></ExternalLink>
+      <ExternalLink className="cta-secondary" href={`${docsUrl}/deploy/README.md`}>Self-hosting guide</ExternalLink>
+    </div>
   );
 }
 
@@ -303,17 +368,18 @@ function Hero() {
       </div>
       <div className="hero-inner">
         <div className="hero-copy">
-          <p className="eyebrow eyebrow-light"><span className="eyebrow-diamond" />Practice management, in three layers</p>
+          <p className="eyebrow eyebrow-light"><span className="eyebrow-diamond" />Open source · AGPL-3.0</p>
           <h1>
             <span>You listen.</span>
             <em>We’ll handle the rest.</em>
           </h1>
           <p className="hero-subtitle">
             Synari runs the layers underneath your practice — documentation, communication,
-            and billing — so the hour belongs to your client.
+            and billing — so the hour belongs to your client. It’s free, open source, and
+            runs on a server you control.
           </p>
-          <DemoForm dark />
-          <p className="hero-hint">Built for therapists · HIPAA-conscious by design</p>
+          <GetStarted />
+          <p className="hero-hint">For solo and group practices · A self-hostable alternative to SimplePractice</p>
         </div>
         <motion.div
           className="hero-stack"
@@ -349,7 +415,7 @@ function ProductMock({ type }: { type: ProductType }) {
       <div className="product-mock product-notes">
         <div className="mock-top">
           <Brand />
-          <span className="status"><i /> Listening</span>
+          <span className="status"><i /> Recording</span>
         </div>
         <div className="wave">
           {Array.from({ length: 28 }).map((_, index) => (
@@ -357,8 +423,8 @@ function ProductMock({ type }: { type: ProductType }) {
           ))}
         </div>
         <div className="mock-copy">
-          <span>Session context captured</span>
-          <strong>Drafting a SOAP note…</strong>
+          <span>Every participant consented</span>
+          <strong>Drafting a SOAP note for your review…</strong>
         </div>
         <div className="progress"><i /></div>
       </div>
@@ -369,12 +435,12 @@ function ProductMock({ type }: { type: ProductType }) {
       <div className="product-mock product-messages">
         <div className="mock-top">
           <span className="avatar">JM</span>
-          <span><strong>Jordan M.</strong><small>Client message</small></span>
-          <span className="status"><i /> Reviewed</span>
+          <span><strong>Jordan M.</strong><small>Secure message</small></span>
+          <span className="status"><i /> Portal</span>
         </div>
         <div className="bubble incoming">Could we move tomorrow’s appointment to later this week?</div>
-        <div className="assistant-line"><Icon name="spark" /> Synari found two openings and drafted a reply.</div>
-        <div className="bubble outgoing">Absolutely. Thursday at 3:30 or Friday at 11:00 are available. Which works best?</div>
+        <div className="bubble outgoing">Of course. Thursday at 3:30 is open — request it from your portal and I’ll confirm.</div>
+        <div className="message-receipt"><Icon name="check" size={13} /> Read by Jordan · 2:16 PM</div>
       </div>
     );
   }
@@ -382,17 +448,17 @@ function ProductMock({ type }: { type: ProductType }) {
     <div className="product-mock product-billing">
       <div className="mock-top">
         <Brand />
-        <span className="status"><i /> Complete</span>
+        <span className="status"><i /> Posted</span>
       </div>
       <div className="billing-total">
         <small>This week</small>
         <strong>$6,840.00</strong>
-        <span>18 sessions processed</span>
+        <span>18 sessions billed</span>
       </div>
       <div className="billing-list">
-        <div><span><i className="payer payer-a" /> Aetna</span><strong>$420.00</strong></div>
-        <div><span><i className="payer payer-b" /> Self-pay</span><strong>$180.00</strong></div>
-        <div><span><i className="payer payer-c" /> Cigna</span><strong>$360.00</strong></div>
+        <div><span><i className="payer payer-a" /> Aetna · ERA posted</span><strong>$420.00</strong></div>
+        <div><span><i className="payer payer-b" /> Self-pay · AutoPay</span><strong>$180.00</strong></div>
+        <div><span><i className="payer payer-c" /> Cigna · Claim accepted</span><strong>$360.00</strong></div>
       </div>
     </div>
   );
@@ -434,7 +500,7 @@ function StackStoryStatic() {
         ))}
         <div className="static-finale">
           <StackMark className="static-finale-mark" />
-          <h3>AI that handles the work around care.</h3>
+          <h3>One app for the work around care.</h3>
         </div>
       </div>
     </section>
@@ -509,12 +575,12 @@ function StackStory() {
           ))}
           <StoryPanel progress={progress} at={[0.78, 0.88, 0.98, 1]} final>
             <p className="eyebrow"><span className="eyebrow-diamond" />The full stack</p>
-            <h3>AI that handles the work around care.</h3>
+            <h3>One app for the work around care.</h3>
             <p className="story-copy">
-              Documentation, communication, and billing — three layers working as one,
-              so your attention stays with your clients.
+              Documentation, communication, and billing — three layers working as one, for a
+              solo practice or a group with care teams and supervisors.
             </p>
-            <a className="panel-link" href="#how">See how it works <Icon name="arrow" size={15} /></a>
+            <a className="panel-link" href="#how">Run it yourself <Icon name="arrow" size={15} /></a>
           </StoryPanel>
         </div>
       </div>
@@ -527,7 +593,7 @@ const convergenceNodes = [
   { icon: "notes" as IconName, label: "Notes", x: 520, y: 72 },
   { icon: "message" as IconName, label: "Messages", x: 568, y: 300 },
   { icon: "bill" as IconName, label: "Billing", x: 352, y: 396 },
-  { icon: "shield" as IconName, label: "Compliance", x: 76, y: 312 },
+  { icon: "shield" as IconName, label: "Audit log", x: 76, y: 312 },
 ];
 
 function Convergence() {
@@ -536,12 +602,13 @@ function Convergence() {
     <section className="convergence" id="connected">
       <Reveal className="convergence-copy">
         <h2>
-          The more Synari learns,
-          <em>the less you have to manage.</em>
+          One record,
+          <em>nothing lost between tools.</em>
         </h2>
         <p>
-          Every workflow gives the next one better context. Your schedule informs reminders.
-          Sessions inform notes. Notes prepare billing. Nothing gets lost between tools.
+          Appointments send their own reminders and video links. Attended sessions become
+          invoices and claims. Insurance payments post back to the client’s balance, and every
+          look at a chart lands in the audit log.
         </p>
       </Reveal>
       <Reveal className="convergence-stage-wrap" delay={0.1}>
@@ -586,11 +653,11 @@ function Convergence() {
   );
 }
 
-const workflow = [
-  ["01", "Prepare", "Reviews tomorrow’s schedule and flags anything that needs your attention."],
-  ["02", "Support", "Keeps routine client communication moving between sessions."],
-  ["03", "Document", "Creates clear clinical drafts for your review after each appointment."],
-  ["04", "Close the loop", "Prepares billing and gives you a clean view of what happened."],
+const workflow: [string, string, string, IconName][] = [
+  ["01", "Clone", "Get the code from GitHub. One command starts Postgres, an email catcher and a LiveKit video server for trying it locally.", "code"],
+  ["02", "Configure", "Plug in what you use: any SMTP provider, Twilio for texts, Stripe for cards, Stedi for claims, Google or Microsoft calendars. Only email is required.", "sliders"],
+  ["03", "Deploy", "One Linux server runs the whole stack with Docker Compose, automatic HTTPS, encrypted backups and restore tests.", "server"],
+  ["04", "Move in", "Import clients, insurance, diagnoses, past sessions, documents and balances from SimplePractice, then invite your team.", "import"],
 ];
 
 function Workflow() {
@@ -599,42 +666,67 @@ function Workflow() {
       <div className="workflow-glow glow-one" aria-hidden="true" />
       <div className="workflow-glow glow-two" aria-hidden="true" />
       <Reveal className="workflow-head">
-        <p className="eyebrow eyebrow-light"><span className="eyebrow-diamond" />How it works</p>
-        <h2>Your practice, <em>gently moving forward.</em></h2>
+        <p className="eyebrow eyebrow-light"><span className="eyebrow-diamond" />Self-hosting</p>
+        <h2>Your practice, <em>on your own server.</em></h2>
       </Reveal>
-      <div className="workflow-cards" role="region" aria-label="How Synari works" tabIndex={0}>
-        {workflow.map(([number, title, copy], index) => (
+      <div className="workflow-cards" role="region" aria-label="How to run Synari" tabIndex={0}>
+        {workflow.map(([number, title, copy, icon], index) => (
           <Reveal key={number} delay={index * 0.09}>
             <article className="workflow-card" data-step={number}>
               <span className="workflow-num">{number}</span>
-              <div className="workflow-icon"><Icon name={["calendar", "message", "notes", "check"][index] as IconName} /></div>
+              <div className="workflow-icon"><Icon name={icon} /></div>
               <h3>{title}</h3>
               <p>{copy}</p>
             </article>
           </Reveal>
         ))}
       </div>
+      <Reveal className="workflow-foot">
+        <ExternalLink className="panel-link" href={`${docsUrl}/deploy/README.md`}>
+          Read the self-hosting guide <Icon name="arrow" size={15} />
+        </ExternalLink>
+        <span>
+          Want help setting it up? <a href={`mailto:${contactEmail}`}>Email us</a>.
+        </span>
+      </Reveal>
     </section>
   );
 }
 
-function Testimonial() {
+const safeguards = [
+  "Two-factor sign-in required for staff",
+  "Clinical data and every stored file encrypted",
+  "Tamper-evident, hash-chained audit log",
+  "Emails and texts never carry clinical content",
+  "Session audio deleted once the note is signed",
+];
+
+function Safeguards() {
   return (
-    <section className="testimonial-section" id="practice">
-      <Reveal className="testimonial">
-        <div className="testimonial-photo">
+    <section className="safeguards-section" id="security">
+      <Reveal className="safeguards">
+        <div className="safeguards-photo">
           <img src="/therapy-office.jpg" alt="A calm therapy office prepared for a client session" loading="lazy" />
-          <div className="testimonial-wash" />
-          <span className="photo-pill"><i /> Practice running smoothly</span>
+          <div className="safeguards-wash" />
+          <span className="photo-pill"><i /> Hosted by your practice</span>
         </div>
-        <blockquote>
-          <StackMark className="quote-mark" />
-          <p>“My attention belongs with my clients. Synari gives me more of it back.”</p>
+        <div className="safeguards-panel">
+          <StackMark className="safeguards-mark" />
+          <h2>Built for protected health information.</h2>
+          <ul>
+            {safeguards.map((item) => (
+              <li key={item}><Icon name="check" size={16} /> {item}</li>
+            ))}
+          </ul>
           <footer>
-            <strong>A calmer way to practice</strong>
-            <span>Built for independent therapists and growing teams</span>
+            <strong>No software is “HIPAA certified.”</strong>
+            <span>
+              Synari implements the Security Rule’s technical safeguards; your practice still needs
+              BAAs, a risk analysis and policies.{" "}
+              <ExternalLink href={`${docsUrl}/docs/hipaa/README.md`}>Read the HIPAA docs</ExternalLink>
+            </span>
           </footer>
-        </blockquote>
+        </div>
       </Reveal>
     </section>
   );
@@ -649,7 +741,7 @@ function Faq() {
         <h2>FAQ</h2>
       </Reveal>
       <div className="faq-list">
-        {faqs.map(([question, answer], index) => (
+        {faqs.map(({ question, answer }, index) => (
           <Reveal key={question} delay={index * 0.05}>
             <article className={`faq-item ${open === index ? "open" : ""}`}>
               <button aria-expanded={open === index} onClick={() => setOpen(open === index ? -1 : index)}>
@@ -669,7 +761,7 @@ function Faq() {
 
 function ClosingCta() {
   return (
-    <section className="closing" id="demo">
+    <section className="closing" id="get-started">
       <div className="closing-backdrop" aria-hidden="true">
         <div className="hero-grid" />
         <div className="closing-glow" />
@@ -684,8 +776,11 @@ function ClosingCta() {
           More room for the work
           <em>only you can do.</em>
         </h2>
-        <p>See how Synari can quietly support your practice.</p>
-        <DemoForm dark />
+        <p>Synari is free to run, change and share.</p>
+        <GetStarted />
+        <p className="closing-help">
+          Want help setting it up for your practice? <a href={`mailto:${contactEmail}`}>Email us</a>.
+        </p>
       </Reveal>
     </section>
   );
@@ -696,17 +791,28 @@ function Footer() {
     <footer className="footer">
       <Reveal className="footer-title">
         <h2>Care first.<em>Admin second.</em></h2>
-        <a href="#demo">Get a demo <Icon name="arrow" /></a>
+        <ExternalLink href={repoUrl}>View on GitHub <Icon name="arrow" /></ExternalLink>
       </Reveal>
       <Reveal className="footer-links">
-        <div><span>Product</span><a href="#how">How it works</a><a href="#faq">FAQ</a><a href="#demo">Demo</a></div>
-        <div><span>Company</span><a href="/about">About</a><a href="mailto:gudadheer@gmail.com">Contact</a><a href="/login">Sign in</a></div>
-        <div><span>Legal</span><a href="/privacy-policy">Privacy</a><a href="/terms-of-service">Terms</a></div>
+        <div>
+          <span>Project</span>
+          <ExternalLink href={repoUrl}>GitHub</ExternalLink>
+          <ExternalLink href={`${docsUrl}/deploy/README.md`}>Self-hosting guide</ExternalLink>
+          <ExternalLink href={`${docsUrl}/docs/hipaa/README.md`}>HIPAA safeguards</ExternalLink>
+          <ExternalLink href={`${docsUrl}/CONTRIBUTING.md`}>Contributing</ExternalLink>
+        </div>
+        <div><span>Synari</span><a href="/about">About</a><a href={`mailto:${contactEmail}`}>Contact</a><a href="/login">Sign in</a></div>
+        <div>
+          <span>Legal</span>
+          <a href="/privacy-policy">Privacy</a>
+          <a href="/terms-of-service">Terms</a>
+          <ExternalLink href={`${docsUrl}/LICENSE`}>License</ExternalLink>
+        </div>
       </Reveal>
       <Reveal className="footer-bottom">
         <Brand />
-        <span>HIPAA-conscious by design</span>
-        <span>© 2026 Synari. All rights reserved.</span>
+        <span>Open source under the GNU AGPL-3.0</span>
+        <span>© 2026 Synari</span>
       </Reveal>
       <div className="footer-word" aria-hidden="true" />
     </footer>
@@ -716,7 +822,7 @@ function Footer() {
 function LandingPage() {
   const [activeSection, setActiveSection] = useState("top");
   useEffect(() => {
-    const sections = ["top", "layers", "how", "faq", "demo"]
+    const sections = ["top", "layers", "how", "faq"]
       .map((id) => document.getElementById(id))
       .filter((element): element is HTMLElement => element !== null);
     let frame = 0;
@@ -748,7 +854,7 @@ function LandingPage() {
         <StackStory />
         <Convergence />
         <Workflow />
-        <Testimonial />
+        <Safeguards />
         <Faq />
         <ClosingCta />
       </main>

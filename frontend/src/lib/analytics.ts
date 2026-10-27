@@ -17,8 +17,6 @@ const GA_MEASUREMENT_ID = import.meta.env.VITE_GA_MEASUREMENT_ID ?? '';
 
 const MARKETING_PATHS = new Set([
   '/',
-  '/demo',
-  '/features',
   '/about',
   '/terms-of-service',
   '/privacy-policy',
@@ -67,14 +65,6 @@ function trackEvent(eventName: string, parameters: Record<string, unknown> = {})
 const marketingEvents = {
   trackCTAClick: (ctaName: string, location: string) =>
     trackEvent('cta_click', { cta_name: ctaName, cta_location: location, event_category: 'conversion' }),
-  trackWaitlistJoin: (source: string) =>
-    trackEvent('waitlist_join', { source, event_category: 'lead_generation' }),
-  trackDemoRequest: (formData: { practice_type?: string; practice_size?: string }) =>
-    trackEvent('demo_request', {
-      practice_type: formData.practice_type,
-      practice_size: formData.practice_size,
-      event_category: 'lead_generation',
-    }),
 };
 
 /** Marketing-page event helpers. */

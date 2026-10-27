@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Lock, LogIn } from 'lucide-react';
+import { Menu, X, LogIn } from 'lucide-react';
+import { FaGithub } from 'react-icons/fa';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAnalytics } from '../lib/analytics';
 import { Brand } from './BrandMark';
 import './brand-mark.css';
+
+const GITHUB_URL = 'https://github.com/gheetdufa/synari-ehr';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -51,15 +54,9 @@ const Header = () => {
             </div>
           </div>
 
-          {/* HIPAA Trust Signal & CTA */}
+          {/* Navigation */}
           <div className="hidden md:flex items-center space-x-4">
-            <div className={`flex items-center space-x-1 text-sm transition-colors duration-300 ${
-              isHomePage && !isScrolled ? 'text-white' : 'text-sage-600'
-            }`}>
-              <Lock className="w-4 h-4" />
-              <span>HIPAA Compliant</span>
-            </div>
-            <Link 
+            <Link
               to="/about" 
               onClick={() => trackCTAClick('About Us', 'Header')} 
               className={`px-4 py-2 rounded-lg transition-all duration-300 ${
@@ -70,24 +67,16 @@ const Header = () => {
             >
               About Us
             </Link>
-            <Link 
-              to="/features" 
-              onClick={() => trackCTAClick('Learn More', 'Header')} 
-              className={`px-4 py-2 rounded-lg transition-all duration-300 ${
-                isHomePage && !isScrolled
-                  ? 'bg-white/20 text-white hover:bg-white/30 backdrop-blur-sm'
-                  : 'bg-sage-100 text-sage-800 hover:bg-sage-200'
-              }`}
+            <a
+              href={GITHUB_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => trackCTAClick('GitHub', 'Header')}
+              className="flex items-center space-x-2 bg-gradient-to-r from-[#0e8177] to-primary-700 text-white px-4 py-2 rounded-lg hover:brightness-110 transition-all"
             >
-              Learn More
-            </Link>
-            <Link
-              to="/demo"
-              onClick={() => trackCTAClick('Get a Demo', 'Header')}
-              className="bg-gradient-to-r from-[#0e8177] to-primary-700 text-white px-4 py-2 rounded-lg hover:brightness-110 transition-all"
-            >
-              Get a Demo
-            </Link>
+              <FaGithub className="w-4 h-4" />
+              <span>GitHub</span>
+            </a>
             <Link
               to="/login"
               onClick={() => trackCTAClick('Login', 'Header')}
@@ -118,11 +107,7 @@ const Header = () => {
         {/* Mobile Navigation */}
         {isMenuOpen && (
           <div className="md:hidden absolute top-full left-0 right-0 mx-4 mt-2 rounded-2xl border border-gray-200 bg-white shadow-2xl">
-            <nav className="flex flex-col p-6 space-y-4">
-              <div className="flex items-center justify-center space-x-2 text-sm text-gray-600 pb-4 border-b border-gray-200">
-                <Lock className="w-4 h-4" />
-                <span>HIPAA Compliant</span>
-              </div>
+            <nav className="flex flex-col p-6">
               <div className="flex flex-col space-y-3">
                 <Link 
                   to="/about"
@@ -131,20 +116,16 @@ const Header = () => {
                 >
                   About Us
                 </Link>
-                <Link 
-                  to="/features"
+                <a
+                  href={GITHUB_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   onClick={() => setIsMenuOpen(false)}
-                  className="px-6 py-3 rounded-full text-center bg-gray-50 text-gray-800 hover:bg-gray-100 border border-gray-200 transition-all duration-300 font-normal"
+                  className="px-6 py-3 rounded-full text-center bg-gradient-to-r from-[#0e8177] to-primary-700 text-white hover:brightness-110 transition-all duration-300 font-normal shadow-lg flex items-center justify-center space-x-2"
                 >
-                  Learn More
-                </Link>
-                <Link
-                  to="/demo"
-                  onClick={() => setIsMenuOpen(false)}
-                  className="px-6 py-3 rounded-full text-center bg-gradient-to-r from-[#0e8177] to-primary-700 text-white hover:brightness-110 transition-all duration-300 font-normal shadow-lg"
-                >
-                  Get a Demo
-                </Link>
+                  <FaGithub className="w-4 h-4" />
+                  <span>GitHub</span>
+                </a>
                 <Link
                   to="/login"
                   onClick={() => setIsMenuOpen(false)}
@@ -163,5 +144,3 @@ const Header = () => {
 };
 
 export default Header;
-
-// hehe

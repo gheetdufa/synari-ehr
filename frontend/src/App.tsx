@@ -1,5 +1,5 @@
 import React, { Suspense, lazy } from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation, Outlet } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation, Outlet, Navigate } from 'react-router-dom';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { Analytics } from '@vercel/analytics/react';
 import { ClientAuthProvider, RequireClient } from './auth/ClientAuth';
@@ -12,8 +12,6 @@ import { FullPageSpinner, SectionSpinner } from './ui/Spinner';
 import { ToastProvider } from './ui/Toast';
 
 const LandingPage = lazy(() => import('./components/LandingPage'));
-const WaitlistPage = lazy(() => import('./components/WaitlistPage'));
-const HeadlineFeatures = lazy(() => import('./components/HeadlineFeatures'));
 const AboutPage = lazy(() => import('./components/AboutPage'));
 const LoginPage = lazy(() => import('./components/LoginPage'));
 const RegisterPage = lazy(() => import('./components/RegisterPage'));
@@ -105,8 +103,8 @@ function App() {
                 <Suspense fallback={<FullPageSpinner />}>
                   <Routes>
                     <Route path="/" element={<LandingPage />} />
-                    <Route path="/demo" element={<WaitlistPage />} />
-                    <Route path="/features" element={<HeadlineFeatures />} />
+                    <Route path="/demo" element={<Navigate to="/" replace />} />
+                    <Route path="/features" element={<Navigate to="/" replace />} />
                     <Route path="/about" element={<AboutPage />} />
                     <Route path="/terms-of-service" element={<TermsOfService />} />
                     <Route path="/privacy-policy" element={<PrivacyPolicy />} />
